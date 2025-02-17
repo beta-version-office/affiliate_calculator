@@ -1,0 +1,1181 @@
+<style>
+    section.calculator {
+        background: linear-gradient(to top, rgb(255 255 255) 76%, #F0F1F1 100%) !important;
+    }
+    input.number-input {
+        background: none;
+        min-width: .8rem!important;
+        width: auto;
+        max-width: .8rem;
+        border: none !important;
+        text-align: end;
+        outline: none;
+        color: inherit;
+        padding: 0;
+    }
+    .auto-toc {
+        padding: 1rem !important;
+    }
+
+    datalist {
+        width: 100%;
+        flex-direction: column;
+        justify-content: space-between;
+        writing-mode: vertical-lr;
+        display: flex;
+    }
+    option {
+        padding: 0;
+        rotate: 270deg;
+    }
+
+    /*ackground-color: #1ABC9C;*/
+    /*background-image: -webkit-linear-gradient(left, #1ABC9C 0%, #F1C40F 50%, #E74C3C 100%);*/
+    /*background-image: linear-gradient(to right,#1ABC9C 0%, #F1C40F 50%, #E74C3C 100%);*/
+
+    .form-range:active {
+        cursor: grabbing;
+    }
+    .form-cont {
+        background: linear-gradient(to bottom, rgb(255 255 255), rgb(255 255 255), rgba(240, 241, 241, 0)) !important;
+    }
+    input[type='range'] {
+        /*background: linear-gradient(to right, #82CFD0 0%, #82CFD0 00%, #e3e3e3 00%, #e3e3e3 100%);*/
+        background: linear-gradient(to right, #ee822a 0%, #9a03d3 00%, #e3e3e3 00%, #e3e3e3 100%);
+        /*background: linear-gradient(to right, #f9ce34 0%, #ee2a7b 00%, #282bd7 00%, #6228d7 100%);*/
+        /*border: solid 1px #82CFD0;*/
+        border-radius: 8px;
+        height: 10px;
+        width: 100%;
+        outline: none;
+        -webkit-appearance: none;
+        cursor: grab;
+        --primaryColor: #f17420;
+        --value-active-color: white;
+        /*--value-background: var(--primaryColor);*/
+        /*--value-background: linear-gradient(to right, #ee2a7b 0%, #282bd7 00%, #e3e3e3 00%, #e3e3e3 100%);;*/
+        --value-font: 700 12px/1 Arial;
+        --progress-color: #EEE;
+        --progress-shadow: 2px 2px 4px rgba(0,0,0, .1) inset;
+        --fill-color: var(--primaryColor);
+        --thumb-size: 20px;
+        --track-height: calc(var(--thumb-size)/2);
+        --thumb-color: #ffffff;
+        --thumb-shadow: 0 0 3px rgba(0,0,0,.2);
+        --ticks-thickness: 1px;
+        --ticks-height: 5px;
+        --ticks-color: silver;
+        --step: 1;
+        --ticks-count: (var(--max) - var(--min)) / var(--step);
+        --maxTicksAllowed: 30;
+        --too-many-ticks: Min(1, Max(var(--ticks-count) - var(--maxTicksAllowed), 0));
+        --x-step: Max( var(--step), var(--too-many-ticks) * (var(--max) - var(--min)) );
+        --tickInterval: 100/((var(--max) - var(--min)) / var(--step)) * var(--tickEvery, 1);
+        --tickIntervalPerc: calc((100% - var(--thumb-size))/( (var(--max) - var(--min)) / var(--x-step) ) * var(--tickEvery, 1));
+        --completed: calc((var(--value) - var(--min) ) / (var(--max) - var(--min)) * 100);
+    }
+    /*section.instagram input[type='range'] {*/
+    /*    background: var(--thumb-color, white);*/
+    /*}*/
+    /*section.twitter input[type='range'] {*/
+    /*    background: var(--thumb-color, white);*/
+    /*}*/
+    /*section.youtube input[type='range'] {*/
+    /*    background: var(--thumb-color, white);*/
+    /*}*/
+    /*section.tiktok input[type='range'] {*/
+    /*    background: var(--thumb-color, white);*/
+    /*}*/
+    /*section.website input[type='range'] {*/
+    /*    background: var(--thumb-color, white);*/
+    /*}*/
+    /*section.live_streaming input[type='range'] {*/
+    /*    background: var(--thumb-color, white);*/
+    /*}*/
+
+
+
+
+
+    input[type='range']::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        height: var(--thumb-size);
+        width: var(--thumb-size);
+        border-radius: 50%;
+        background: var(--thumb-color, #ffffff);
+        border: 2px solid #6103d3;
+        box-shadow: var(--inner-shadow, 0 0), var(--thumb-shadow);
+    }
+    section[data-calc="instagram"] input[type='range']::-webkit-slider-thumb {
+        background: var(--thumb-color, white);
+        border-color: #6103d3;
+    }
+    section[data-calc="twitter"] input[type='range']::-webkit-slider-thumb {
+        background: var(--thumb-color, white);
+        border-color: #37a1f7;
+    }
+    section[data-calc="youtube"] input[type='range']::-webkit-slider-thumb {
+        background: var(--thumb-color, white);
+        border-color: #480000;
+    }
+    section[data-calc="tiktok"] input[type='range']::-webkit-slider-thumb {
+        background: var(--thumb-color, white);
+        border-color: #f42d53;
+    }
+    section[data-calc="website"] input[type='range']::-webkit-slider-thumb {
+        background: var(--thumb-color, white);
+        border-color: #12a9c9;
+    }
+    section[data-calc="live_streaming"] input[type='range']::-webkit-slider-thumb {
+        background: var(--thumb-color, white);
+        border-color: #112262;
+    }
+
+    input[type='range']::-moz-slider-thumb {
+        -moz-appearance: none;
+        appearance: none;
+        height: var(--thumb-size);
+        width: var(--thumb-size);
+        border-radius: 50%;
+        background: var(--thumb-color, white);
+        border: 1px solid silver;
+        box-shadow: var(--inner-shadow, 0 0), var(--thumb-shadow);
+    }
+    section.instagram input[type='range']::-moz-slider-thumb {
+        background: var(--thumb-color, white);
+    }
+    section.twitter input[type='range']::-moz-slider-thumb {
+        background: var(--thumb-color, white);
+    }
+    section.youtube input[type='range']::-moz-slider-thumb {
+        background: var(--thumb-color, white);
+    }
+    section.tiktok input[type='range']::-moz-slider-thumb {
+        background: var(--thumb-color, white);
+    }
+    section.website input[type='range']::-moz-slider-thumb {
+        background: var(--thumb-color, white);
+    }
+    section.live_streaming input[type='range']::-moz-slider-thumb {
+        background: var(--thumb-color, white);
+    }
+
+
+
+    input[type='range']::-ms-thumb {
+        appearance: none;
+        height: var(--thumb-size);
+        width: var(--thumb-size);
+        border-radius: 50%;
+        background: var(--thumb-color, white);
+        border: 1px solid silver;
+        box-shadow: var(--inner-shadow, 0 0), var(--thumb-shadow);
+    }
+    section.instagram input[type='range']::-ms-thumb {
+        background: var(--thumb-color, white);
+    }
+    section.twitter input[type='range']::-ms-thumb {
+        background: var(--thumb-color, white);
+    }
+    section.youtube input[type='range']::-ms-thumb {
+        background: var(--thumb-color, white);
+    }
+    section.tiktok input[type='range']::-ms-thumb {
+        background: var(--thumb-color, white);
+    }
+    section.website input[type='range']::-ms-thumb {
+        background: var(--thumb-color, white);
+    }
+    section.live_streaming input[type='range']::-ms-thumb {
+        background: var(--thumb-color, white);
+    }
+
+
+    input[type='range']:active {
+        cursor: grabbing;
+        --thumb-color: #6103d3;
+        --inner-shadow: 0 0 0 calc(var(--thumb-size) / 6) inset white;
+    }
+    section[data-calc="instagram"] input[type='range']:active {
+        --thumb-color: #6103d3;
+    }
+    section[data-calc="twitter"] input[type='range']:active {
+        --thumb-color: #020202;
+    }
+    section[data-calc="youtube"] input[type='range']:active {
+        --thumb-color: #FF0000;
+    }
+    section[data-calc="tiktok"] input[type='range']:active {
+        --thumb-color: #000000;
+    }
+    section[data-calc="website"] input[type='range']:active {
+        --thumb-color: #12a9c9;
+    }
+    section[data-calc="live_streaming"] input[type='range']:active {
+        --thumb-color: #914cdb;
+    }
+
+    .result-cont::before,
+    .result-cont::after {
+        content: '';
+        background-color: #f6f7f7;
+        width: 4rem;
+        height: 3rem;
+        position: absolute;
+        top: -2.8rem;
+        left: 100px;
+        -webkit-border-radius: 5rem;
+        -moz-border-radius: 5rem;
+        border-radius: 5rem;
+        z-index: 2;
+    }
+    .result-cont::after {
+        background-color: #ffc400;
+        width: 5rem;
+        height: 5rem;
+        top: -1.5rem;
+        left: 78px;
+        z-index: 1;
+    }
+    @media screen and (min-width: 990px) {
+        .form-cont {
+            -webkit-border-radius: .5rem 10rem .5rem .5rem !important;
+            -moz-border-radius: .5rem 10rem .5rem .5rem !important;
+            border-radius: .5rem 10rem .5rem .5rem !important;
+        }
+        .result-cont .inners::after {
+            content: '';
+            background-color: #fafafa;
+            width: 1rem;
+            height: 1rem;
+            margin-left: -.5rem;
+            position: absolute;
+            left: 50%;
+            bottom: -1rem;
+            -webkit-transform: rotate(45deg);
+            -moz-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            -o-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+    }
+    /*.custom-tooltip {*/
+    /*    --bs-tooltip-bg: var(--bd-violet-bg);*/
+    /*    --bs-tooltip-color: var(--bs-white);*/
+    /*}*/
+    .igCustom {
+        min-width: 28rem;
+        height: 28rem;
+        position: absolute;
+        left: 0;
+        top: 1rem;
+    }
+    .webCustom {
+        min-width: 22rem;
+        height: 22rem;
+        position: absolute;
+        left: 1rem;
+        top: -4rem;
+        /*z-index: 111;*/
+    }
+    .tikCustom {
+        min-width: 25rem;
+        height: 25rem;
+        position: absolute;
+        left: -1rem;
+        top: -4rem;
+    }
+    .youCustom {
+        min-width: 24rem;
+        height: 24rem;
+        position: absolute;
+        left: -1rem;
+        top: -4rem;
+    }
+    .twitCustom {
+        min-width: 30rem;
+        height: 28rem;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    .liveCustom {
+        min-width: 26rem;
+        height: 26rem;
+        position: absolute;
+        left: 0;
+        top: -3.5rem;
+    }
+</style>
+<section class="calculator" data-calc="{$act_menu|replace: '_calc': ''}" style="min-height: calc(100vh - 8rem)">
+    <div class="container relative pt-2 py-lg-5">
+        <div class="w-75 text-centers rounded-sm mx-auto mb-5 d-grid">
+            <div class="align-items-start d-lg-flex">
+                <div class="nav flex-column sticky-top sticky-offset-5 nav-pills gap-2 me-2 d-none d-lg-grid" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a href="{$path}/publisher/instagram-affiliate-calculator" class="nav-link border bg-white text-uppercase text-dark shadow-sm {if $act_menu =='instagram_calc'}d-none{/if}" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Instagram Calculator"><i class="bi-instagram fs-4"></i></a>
+                    <a href="{$path}/publisher/tiktok-affiliate-calculator" class="nav-link border bg-white text-uppercase text-dark shadow-sm {if $act_menu =='tiktok_calc'}d-none{/if}" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Tiktok Calculator"><i class="bi-tiktok fs-4"></i></a>
+                    <a href="{$path}/publisher/youtube-affiliate-calculator" class="nav-link border bg-white text-uppercase text-dark shadow-sm {if $act_menu =='youtube_calc'}d-none{/if}" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Youtube Calculator"><i class="bi-youtube fs-4"></i></a>
+                    <a href="{$path}/publisher/twitter-affiliate-calculator" class="nav-link border bg-white text-uppercase text-dark shadow-sm {if $act_menu =='twitter_calc'}d-none{/if}" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="X Calculator"><i class="bi-twitter-x fs-5"></i></a>
+                    <a href="{$path}/publisher/website-affiliate-calculator" class="nav-link border bg-white text-uppercase text-dark shadow-sm {if $act_menu =='website_calc'}d-none{/if}" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Website Calculator"><i class="bi-globe fs-4"></i></a>
+                    {if preg_match("/localhost/", $path)}
+                    <a href="{$path}/publisher/live-streaming-affiliate-calculator" class="nav-link border bg-white text-uppercase text-dark shadow-sm {if $act_menu =='live_streaming-calc'}d-none{/if}" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Live Streaming Calculator"><i class="bi-camera-video fs-4"></i></a>
+                    {/if}
+                </div>
+                <div>
+                    <div class="form-cont card card-body h-100 border-0 shadow-sms position-relative full-index pb-0 p-3 pb-lg-0 p-lg-4 mb-3s">
+                        <div class="row g-3">
+                            <div class="col">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb fs-md justify-content-centers mb-2 mx-autos d-flex">
+                                        <li class="breadcrumb-item"><a href="{$path}"><i class="bi-house-door me-1"></i> Home</a></li>
+                                        <li class="breadcrumb-item"><a href="{$path}/publisher">Publisher</a></li>
+                                        <li class="breadcrumb-item text-capitalize active" aria-current="page">{$act_menu|replace: '_':' '|replace: 'calc': ''} Calculator</li>
+                                    </ol>
+                                </nav>
+                                <div class="lh-sm mb-4">
+                                    <div class="fs-2 fw-medium text-capitalize align-items-center gap-1 mb-2">
+                                        <span class="text-ats me-1 d-blocks">
+                                            <i class="bi-{if $act_menu == 'live_streaming_calc'}camera-video fs-2{elseif $act_menu == 'website_calc'}globe fs-4{elseif $act_menu == 'twitter_calc'}twitter-x fs-4{else}{$act_menu|replace: '_':' '|replace: 'calc': ''} fs-4{/if} me-1"></i>
+                                        {if $act_menu == 'twitter_calc'}X{else}{$act_menu|replace: '_':' '|replace: 'calc': ''}{/if}
+                                        </span> Affiliate Calculator
+                                    </div>
+                                    <h1 class="fs-6 fw-normal text-capitalizes">{$detail.martTitle|html_entity_decode}</h1>
+                                </div>
+
+                                <form method="post" id="calcAffiliate" class="bg-lights borders rounded-sms pe-lg-3" onsubmit="return false;">
+                                    <div class="row row-cols-1 row-cols-lg-1 text-capitalize g-2">
+                                        {if $act_menu == 'instagram_calc' || $act_menu == 'twitter_calc'}
+                                        <div class="range-list col-12 col-lg" data-param="1" id="ralisfol">
+                                            <div class="numCont align-items-center d-flex">
+                                                <label for="customRange1" class="form-label fw-medium mb-0">Followers <span class="ck"></span></label>
+                                                <div class="ms-2 me-auto">
+                                                    <select class="form-select form-select-sm" aria-label="Default select example">
+                                                        <option value="f1" selected>< 5K</option>
+                                                        <option value="f2">< 10K</option>
+                                                        <option value="f3">< 50K</option>
+                                                        <option value="f4">< 500K</option>
+                                                        <option value="f5">< 1M</option>
+                                                        <option value="f6">< 5M</option>
+                                                        <option value="f7">< 10M</option>
+                                                        <option value="f8">10M+</option>
+                                                    </select>
+                                                </div>
+                                                <div class="align-items-center gap-1 d-flex">
+                                                    <i class="bi-people fs-5"></i>
+                                                    <label for="{$act_menu|replace: '_calc': ''}_follower"></label>
+                                                    <input type="text" id="{$act_menu|replace: '_calc': ''}_follower" min="0" max="4999" maxlength="4" value="0" placeholder="0" class="number-input border fs-5 fw-medium"/>
+                                                </div>
+                                            </div>
+                                            <input type="range" id="customRange1" min="0" max="4999" step="1" value="0" class="range-input form-ranges"/>
+                                        </div>
+                                        <div class="range-list col-12 col-lg" data-param="2" id="raliscom">
+                                            <div class="align-items-center d-flex">
+                                                <label for="customRange2" class="form-label fw-medium me-auto mb-0">Comments <small class="text-secondary text-lowercase fw-normal fst-italic">(per post)</small></label>
+                                                <div class="align-items-center gap-1 d-flex">
+                                                    <i class="bi-chat-left-text fs-5"></i>
+                                                    <label for="{$act_menu|replace: '_calc': ''}_comment"></label>
+                                                    <input type="text" id="{$act_menu|replace: '_calc': ''}_comment" min="0" max="9999" maxlength="4" value="0" placeholder="0" class="number-input border fs-5 fw-medium"/>
+                                                </div>
+                                            </div>
+                                            <input type="range" id="customRange2" min="0" max="9999" value="0" class="range-input form-ranges"/>
+                                        </div>
+                                        <div class="range-list col-12 col-lg" data-param="3" id="ralislks">
+                                            <div class="align-items-center d-flex">
+                                                <label for="customRange3" class="form-label fw-medium me-auto mb-0">Likes <small class="text-secondary fw-normal text-lowercase fst-italic">(per post)</small></label>
+                                                <div class="align-items-center gap-1 d-flex">
+                                                    <i class="bi-hand-thumbs-up fs-5"></i>
+                                                    <label for="{$act_menu|replace: '_calc': ''}_likes"></label>
+                                                    <input type="text" id="{$act_menu|replace: '_calc': ''}_likes" min="0" max="9999" maxlength="4" value="0" placeholder="0" class="number-input border fs-5 fw-medium"/>
+                                                </div>
+                                            </div>
+                                            <input type="range" id="customRange3" min="0" max="9999" value="0" class="range-input form-ranges"/>
+                                        </div >
+                                        <div class="range-list col-12 col-lg" data-param="4" id="ralispos">
+                                            <div class="align-items-center d-flex">
+                                                <label for="customRange4" class="form-label fw-medium me-auto mb-0">Total Posting <small class="text-secondary fw-normal text-lowercase fst-italic">(per monthly)</small></label>
+                                                <div class="align-items-center gap-1 d-flex">
+                                                    <i class="bi-file-richtext fs-5"></i>
+                                                    <label for="{$act_menu|replace: '_calc': ''}_total_post"></label>
+                                                    <input type="text" id="{$act_menu|replace: '_calc': ''}_total_post" min="0" max="99" maxlength="2" value="0" placeholder="0" class="number-input border fs-5 fw-medium"/>
+                                                </div>
+                                            </div>
+                                            <input type="range" id="customRange4" min="0" max="99" value="0" class="range-input form-ranges"/>
+                                        </div>
+
+                                        {elseif $act_menu == 'youtube_calc'}
+                                        <div class="range-list col-12 col-lg" data-param="1" id="youvpm">
+                                            <div class="numCont align-items-center d-flex">
+                                                <label for="customRange5" class="form-label fw-medium mb-0">Views <small class="text-secondary fw-normal text-lowercase fst-italic d-nones">(per monthly)</small></label>
+                                                <div class="ms-2 me-auto">
+                                                    <select class="form-select form-select-sm" aria-label="Default select example">
+                                                        <option value="f1" selected>< 5K</option>
+                                                        <option value="f2">< 10K</option>
+                                                        <option value="f3">< 50K</option>
+                                                        <option value="f4">< 500K</option>
+                                                        <option value="f5">< 1M</option>
+                                                        <option value="f6">< 5M</option>
+                                                        <option value="f7">< 10M</option>
+                                                        <option value="f8">10M+</option>
+                                                    </select>
+                                                </div>
+                                                <div class="align-items-center gap-1 d-flex">
+                                                    <i class="bi-person-video2 fs-5"></i>
+                                                    <label for="{$act_menu|replace: '_calc': ''}_vpm"></label>
+                                                    <input type="text" id="{$act_menu|replace: '_calc': ''}_vpm" min="0" max="4999" maxlength="4" value="0" placeholder="0" class="number-input border fs-5 fw-medium"/>
+                                                </div>
+                                            </div>
+                                            <input type="range" id="customRange5" min="0" max="4999" step="1" value="0" class="range-input form-ranges"/>
+                                        </div>
+
+                                        {elseif $act_menu == 'tiktok_calc' || $act_menu == 'website_calc'}
+                                        <div class="range-list col-12 col-lg" data-param="1" id="ralistraf">
+                                            <div class="numCont align-items-center d-flex">
+                                                <label for="customRange6" class="form-label fw-medium mb-0">Traffic <small class="text-secondary fw-normal text-lowercase fst-italic d-none">(per monthly)</small></label>
+                                                <div class="ms-2 me-auto">
+                                                    <select class="form-select form-select-sm" aria-label="select">
+                                                        <option value="f1" selected>< 5K</option>
+                                                        <option value="f2">< 10K</option>
+                                                        <option value="f3">< 50K</option>
+                                                        <option value="f4">< 500K</option>
+                                                        <option value="f5">< 1M</option>
+                                                        <option value="f6">< 5M</option>
+                                                        <option value="f7">< 10M</option>
+                                                        <option value="f8">10M+</option>
+                                                    </select>
+                                                </div>
+                                                <div class="align-items-center gap-1 d-flex">
+                                                    <i class="bi-graph-up-arrow fs-5"></i>
+                                                    <label for="{$act_menu|replace: '_calc': ''}_traffic"></label>
+                                                    <input type="text" id="{$act_menu|replace: '_calc': ''}_traffic" min="0" max="4999" maxlength="4" value="0" placeholder="0" class="number-input border fs-5 fw-medium"/>
+                                                </div>
+                                            </div>
+                                            <input type="range" id="customRange6" min="0" max="4999" step="1" value="0" class="range-input form-ranges"/>
+                                        </div>
+
+                                        {else} <!--Live Streaming-->
+                                        <div class="range-list col-12 col-lg" data-param="1" id="lvtraf">
+                                            <div class="numCont align-items-center d-flex">
+                                                <label for="customRange7" class="form-label fw-medium mb-0">Live <small class="text-secondary fw-normal text-lowercase fst-italic d-none">(per monthly)</small></label>
+                                                <div class="ms-2 me-auto">
+                                                    <select class="form-select form-select-sm" aria-label="select">
+                                                        <option value="f1" selected>< 5K</option>
+                                                        <option value="f2">< 10K</option>
+                                                        <option value="f3">< 50K</option>
+                                                        <option value="f4">< 500K</option>
+                                                        <option value="f5">< 1M</option>
+                                                        <option value="f6">< 5M</option>
+                                                        <option value="f7">< 10M</option>
+                                                        <option value="f8">10M+</option>
+                                                    </select>
+                                                </div>
+                                                <div class="align-items-center gap-1 d-flex">
+                                                    <i class="bi-graph-up-arrow fs-5"></i>
+                                                    <label for="{$act_menu|replace: '_calc': ''}_live"></label>
+                                                    <input type="text" id="{$act_menu|replace: '_calc': ''}_live" min="0" max="4999" maxlength="4" value="0" placeholder="0" class="number-input border fs-5 fw-medium"/>
+                                                </div>
+                                            </div>
+                                            <input type="range" id="customRange7" min="0" max="4999" step="1" value="0" class="range-input form-ranges"/>
+                                        </div>
+                                        {/if}
+
+                                        <div class="col-12 col-lg-auto pt-3 pb-3">
+                                            <button type="submit" id="{$act_menu|replace: '_':''|replace: 'calc': ''}_submit" class="btnCalculate btn btn-at fw-medium py-2 px-4" disabled>Calculate</button>
+                                            <button type="button" class="btnReset btn btn-outline-secondary fw-medium py-2 px-4 d-none">Reset</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-12 col-lg-5 align-self-md-ends position-relative d-none d-lg-block">
+                                {if $act_menu == 'instagram_calc'}
+                                <div class="imgCont igCustom"><img src="{$pathimg}CALC/instagram_1.webp" alt=""></div>
+                                {elseif $act_menu == 'twitter_calc'}
+                                <div class="imgCont twitCustom"><img src="{$pathimg}CALC/twitter_1.webp" alt=""></div>
+                                {elseif $act_menu == 'youtube_calc'}
+                                <div class="imgCont youCustom"><img src="{$pathimg}CALC/youtube_1.webp" alt=""></div>
+                                {elseif $act_menu == 'tiktok_calc'}
+                                <div class="imgCont tikCustom"><img src="{$pathimg}CALC/tiktok_1.webp" alt=""></div>
+                                {elseif $act_menu == 'website_calc'}
+                                <div class="webCustom imgCont"><img src="{$pathimg}CALC/web_1.webp" alt=""></div>
+                                {else}
+                                <div class="liveCustom imgCont"><img src="{$pathimg}CALC/live_1.webp" alt=""></div>
+                                {/if}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result-cont card card-body position-relative border-0 p-0 mt-3 d-none">
+                        <!--<div class="fs-5 fw-medium text-center mb-3">Result</div>-->
+                        <div class="bg-at-gradation-top position-relative rounded-sm full-index pt-3 px-3 pb-2">
+                            {if $act_menu == 'instagram_calc' || $act_menu == 'twitter_calc'}
+                            <div class="row text-center justify-content-center lh-sm g-2 mb-3">
+                                <div class="col-4 col-lg">
+                                    <div class="card card-body h-100 border-0 p-2">
+                                        <i class="bi-people fs-4"></i>
+                                        <p class="fs-md mb-1">Followers</p>
+                                        <div class="h6 mt-auto mb-0 resfield" data-result="{$act_menu|replace: '_calc': ''}_follower">0</div>
+                                    </div>
+                                </div>
+                                <div class="col-4 col-lg">
+                                    <div class="card card-body h-100 border-0 p-2">
+                                        <i class="bi-chat-dots fs-4"></i>
+                                        <p class="fs-md mb-1">Comments <br/>(per post)</p>
+                                        <div class="h6 mt-auto mb-0 resfield" data-result="{$act_menu|replace: '_calc': ''}_comment">0</div>
+                                    </div>
+                                </div>
+                                <div class="col-4 col-lg">
+                                    <div class="card card-body h-100 border-0 p-2">
+                                        <i class="bi-hand-thumbs-up fs-4"></i>
+                                        <p class="fs-md mb-1">Likes <br/>(per post)</p>
+                                        <div class="h6 mt-auto mb-0 resfield" data-result="{$act_menu|replace: '_calc': ''}_likes">0</div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-lg">
+                                    <div class="card card-body h-100 border-0 p-2">
+                                        <i class="bi-file-richtext fs-4"></i>
+                                        <p class="fs-md mb-1">Total Posting <br/>(per monthly)</p>
+                                        <div class="h6 mt-auto mb-0 resfield" data-result="{$act_menu|replace: '_calc': ''}_total_post">0</div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-lg">
+                                    <div class="card card-body h-100 border-0 p-2">
+                                        <i class="bi-coin fs-4"></i>
+                                        <p class="fs-md mb-1">Average Commision</p>
+                                        <div class="h6 mt-auto mb-0 resfield"><small class="fs-md">IDR</small> <span data-result="{$act_menu|replace: '_calc': ''}_avcomm">0</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            {if $act_menu == 'instagram_calc'} <!--Instagram-->
+                            <div class="inners row row-cols-1 row-cols-lg-2 position-relative text-center g-3 g-lg-5">
+                                <div class="col">
+                                    <div class="h5 text-white text-center mb-3">Creator <small class="fs-6 fw-medium d-block">(Average CVR 3%)</small></div>
+                                    <div class="gap-2 mb-2 d-flex">
+                                        <div class="card card-body w-100 border-0 p-2">
+                                            <p class="fs-md lh-sm mb-1">Estimated Click</p>
+                                            <div class="h6 mt-auto mb-0" data-result="c_{$act_menu|replace: '_calc': ''}_estimated_click">0</div>
+                                        </div>
+                                        <div class="card card-body w-100 border-0 p-2">
+                                            <p class="fs-md lh-sm mb-1">Estimated Conversion</p>
+                                            <div class="h6 mt-auto mb-0" data-result="c_{$act_menu|replace: '_calc': ''}_estimated_conversion">0</div>
+                                        </div>
+                                    </div>
+                                    <div class="gap-2 mb-2 d-flex">
+                                        <div class="card card-body w-100 border-0 p-2">
+                                            <p class="fs-md lh-sm mb-1">Estimated Commission <br/>(per post)</p>
+                                            <div class="h6 mt-auto mb-0"><small class="fs-md">IDR</small> <span data-result="c_{$act_menu|replace: '_calc': ''}_estimated_commission_post">0</span></div>
+                                        </div>
+                                        <div class="card card-body w-100 border-0 p-2">
+                                            <p class="fs-md lh-sm mb-1">Estimated Commission <br/>(per monthly)</p>
+                                            <div class="h6 mt-auto mb-0"><small class="fs-md">IDR</small> <span data-result="c_{$act_menu|replace: '_calc': ''}_estimated_commission_month">0</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="h5 text-white text-center mb-3">Remix Creator <small class="fs-6 fw-medium d-block">(Average CVR 10%)</small></div>
+                                    <div class="gap-2 mb-2 d-flex">
+                                        <div class="card card-body w-100 border-0 p-2">
+                                            <p class="fs-md lh-sm mb-1">Estimated Click</p>
+                                            <div class="h6 mt-auto mb-0" data-result="rc_{$act_menu|replace: '_calc': ''}_estimated_click">0</div>
+                                        </div>
+                                        <div class="card card-body w-100 border-0 p-2">
+                                            <p class="fs-md lh-sm mb-1">Estimated Conversion</p>
+                                            <div class="h6 mt-auto mb-0" data-result="rc_{$act_menu|replace: '_calc': ''}_estimated_conversion">0</div>
+                                        </div>
+                                    </div>
+                                    <div class="gap-2 mb-2 d-flex">
+                                        <div class="card card-body w-100 border-0 p-2">
+                                            <p class="fs-md lh-sm mb-1">Estimated Commission <br/>(per post)</p>
+                                            <div class="h6 mt-auto mb-0"><small class="fs-md">IDR</small> <span data-result="rc_{$act_menu|replace: '_calc': ''}_estimated_commission_post">0</span></div>
+                                        </div>
+                                        <div class="card card-body w-100 border-0 p-2">
+                                            <p class="fs-md lh-sm mb-1">Estimated Commission <br/>(per monthly)</p>
+                                            <div class="h6 mt-auto mb-0"><small class="fs-md">IDR</small> <span data-result="rc_{$act_menu|replace: '_calc': ''}_estimated_commission_month">0</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {else} <!--Twitter-->
+                            <div class="row row-cols-2s row-cols-lg-3s text-center g-2 mb-2">
+                                <div class="col-4">
+                                    <div class="card card-body h-100 p-2">
+                                        <p class="fs-md lh-sm mb-1">Average CVR</p>
+                                        <div class="h6 mt-auto mb-0" data-result="{$act_menu|replace: '_calc': ''}_acvr">3%</div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="card card-body h-100 p-2">
+                                        <p class="fs-md lh-sm mb-1">Estimated Click</p>
+                                        <div class="h6 mt-auto mb-0" data-result="{$act_menu|replace: '_calc': ''}_estimated_click">0</div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="card card-body h-100 p-2">
+                                        <p class="fs-md lh-sm mb-1">Estimated Conversion</p>
+                                        <div class="h6 mt-auto mb-0" data-result="{$act_menu|replace: '_calc': ''}_estimated_conversion">0</div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card card-body h-100 p-2">
+                                        <p class="fs-md lh-sm mb-1">Estimated Commission <br/>(per post)</p>
+                                        <div class="h6 mt-auto mb-0"><small class="fs-md">IDR</small> <span data-result="{$act_menu|replace: '_calc': ''}_estimated_commission_post">0</span></div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card card-body h-100 p-2">
+                                        <p class="fs-md lh-sm mb-1">Estimated Commission <br/>(per monthly)</p>
+                                        <div class="h6 mt-auto mb-0"><small class="fs-md">IDR</small> <span data-result="{$act_menu|replace: '_calc': ''}_estimated_commission_month">0</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/if}
+
+                            {elseif $act_menu == 'youtube_calc'}
+                            <div class="row text-center lh-sm g-2 mb-2">
+                                <div class="col">
+                                    <div class="card card-body h-100 p-2">
+                                        <i class="bi-person-video2 fs-4"></i>
+                                        <p class="fs-md mb-1">Views <br/>(per monthly)</p>
+                                        <div class="h6 mt-auto mb-0" data-result="{$act_menu|replace: '_calc': ''}_view">0</div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card card-body h-100 p-2">
+                                        <i class="bi-mouse fs-4"></i>
+                                        <p class="fs-md mb-1">Estimated Click</p>
+                                        <div class="h6 mt-auto mb-0" data-result="{$act_menu|replace: '_calc': ''}_est_click">0</div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card card-body h-100 p-2">
+                                        <i class="bi-funnel fs-4"></i>
+                                        <p class="fs-md mb-1">Estimated Conversion</p>
+                                        <div class="h6 mt-auto mb-0" data-result="{$act_menu|replace: '_calc': ''}_est_conversion">0</div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-lg">
+                                    <div class="card card-body h-100 border-0 p-2">
+                                        <i class="bi-coin fs-4"></i>
+                                        <p class="fs-md mb-1">Average Commision</p>
+                                        <div class="h6 mt-auto mb-0"><small class="fs-md">IDR</small> <span data-result="{$act_menu|replace: '_calc': ''}_avcomm">0</span></div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card card-body h-100 p-2">
+                                        <i class="bi-cash-coin fs-4"></i>
+                                        <p class="fs-md mb-1">Estimated Commission <br/>(per monthly)</p>
+                                        <div class="h6 mt-auto mb-0"><small class="fs-md">IDR</small> <span data-result="{$act_menu|replace: '_calc': ''}_est_commission">0</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {elseif $act_menu == 'tiktok_calc' || $act_menu == 'website_calc'}
+                            <div class="row text-center lh-sm g-2 mb-2">
+                                <div class="col">
+                                    <div class="card card-body h-100 p-2">
+                                        <i class="bi-graph-up-arrow fs-4"></i>
+                                        <p class="fs-md mb-1">Traffic</p>
+                                        <div class="h6 mt-auto mb-0" data-result="{$act_menu|replace: '_calc': ''}_traffic">0</div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card card-body h-100 p-2">
+                                        <i class="bi-mouse fs-4"></i>
+                                        <p class="fs-md mb-1">Estimated Click</p>
+                                        <div class="h6 mt-auto mb-0" data-result="{$act_menu|replace: '_calc': ''}_est_click">0</div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card card-body h-100 p-2">
+                                        <i class="bi-funnel fs-4"></i>
+                                        <p class="fs-md mb-1">Estimated Conversion</p>
+                                        <div class="h6 mt-auto mb-0" data-result="{$act_menu|replace: '_calc': ''}_est_conversion">0</div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-lg">
+                                    <div class="card card-body h-100 border-0 p-2">
+                                        <i class="bi-coin fs-4"></i>
+                                        <p class="fs-md mb-1">Average Commision</p>
+                                        <div class="h6 mt-auto mb-0"><small class="fs-md">IDR</small> <span data-result="{$act_menu|replace: '_calc': ''}_avcomm">0</span></div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card card-body h-100 p-2">
+                                        <i class="bi-cash-coin fs-4"></i>
+                                        <p class="fs-md mb-1">Estimated Commission <br/>(per monthly)</p>
+                                        <div class="h6 mt-auto mb-0"><small class="fs-md">IDR</small> <span data-result="{$act_menu|replace: '_calc': ''}_est_commission">0</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {else} <!--Live Streaming-->
+                            <div class="row text-center lh-sm g-2 mb-2">
+                                <div class="col">
+                                    <div class="card card-body h-100 p-2">
+                                        <i class="bi-graph-up-arrow fs-4"></i>
+                                        <p class="fs-md mb-1">Traffic</p>
+                                        <div class="h6 mt-auto mb-0" data-result="{$act_menu|replace: '_calc': ''}_live">0</div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card card-body h-100 p-2">
+                                        <i class="bi-mouse fs-4"></i>
+                                        <p class="fs-md mb-1">Estimated Click</p>
+                                        <div class="h6 mt-auto mb-0" data-result="{$act_menu|replace: '_calc': ''}_est_click">0</div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card card-body h-100 p-2">
+                                        <i class="bi-funnel fs-4"></i>
+                                        <p class="fs-md mb-1">Estimated Conversion</p>
+                                        <div class="h6 mt-auto mb-0" data-result="{$act_menu|replace: '_calc': ''}_est_conversion">0</div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-lg">
+                                    <div class="card card-body h-100 border-0 p-2">
+                                        <i class="bi-coin fs-4"></i>
+                                        <p class="fs-md mb-1">Average Commision</p>
+                                        <div class="h6 mt-auto mb-0"><small class="fs-md">IDR</small> <span data-result="{$act_menu|replace: '_calc': ''}_avcomm">0</span></div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="card card-body h-100 p-2">
+                                        <i class="bi-cash-coin fs-4"></i>
+                                        <p class="fs-md mb-1">Estimated Commission <br/>(per monthly)</p>
+                                        <div class="h6 mt-auto mb-0"><small class="fs-md">IDR</small> <span data-result="{$act_menu|replace: '_calc': ''}_est_commission">0</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/if}
+                        </div>
+                    </div>
+
+                    <div class="text-detail px-lg-4 pt-4 pb-2">
+                        {$detail.martDescription|html_entity_decode}
+                    </div>
+
+
+                    <div class="px-sm-5 px-lg-0 py-3 gap-3 d-flex">
+                        <a href="{$detail.martTargetUrl}" target="_blank" class="btnRegArtDetail w-50 text-decoration-none">
+                            <div class="card card-body bg-at-gradation text-white fs-md rounded-sm shadow-sm">
+                                <div class="align-items-center gap-3 d-flex">
+                                    <i class="bi-cash-coin bg-white rounded-pill align-items-center text-center text-at fs-1 d-grid" style="min-width: 4rem;height: 4rem;"></i>
+                                    <div>
+                                        <div class="fs-6 fw-medium mb-2">Waktunya Cuan! Klik di sini dan mulai hasilkan uang dari konten yang kamu share!</div>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <i class="bi-chevron-right fs-lg fw-medium"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+</script>
+<script type="text/javascript">
+    let navSelector = ".auto-toc",
+        c, currentScrollTop = 0,
+        nav = $('.navbar'),
+        affectedElements = $(".text-detail p, .text-detail h1, .text-detail h2, .text-detail h3, .text-detail h4, .text-detail h5, .text-detail h6, .text-detail li"); // Can be extended, ex. $("div, p, span.someClass")
+
+    $(document).ready(function (){
+        let parent = $("#calcAffiliate"),
+            btnRset = $(".btnReset"),
+            btnCalc = $(".btnCalculate"),
+            foval,
+            prm = 12;
+        if(!parent) return;
+        let steps,
+            color1,
+            color2,
+            mins = 0,
+            maxs = 4999,
+            maxsL,
+            sct = $('section.calculator').attr('data-calc');
+        rList = parent.find(".range-list"),
+            rlFirst = rList.first(),
+            rlfNumber = rlFirst.find('.number-input');
+
+        var $myNav = $(navSelector);
+        Toc.init($myNav);
+
+        $myNav.find('.nav-link').bind('click', function (event) {
+            event.preventDefault();
+            var link = $(this), num = (link.attr('href') != '') ? 125 : 0;
+            $('html, body').stop().animate({
+                scrollTop: $(link.attr('href')).offset().top - num
+            }, 500);
+        });
+
+        affectedElements.each( function(){
+            var $this = $(this);
+            $this.data("orig-size", $this.css("font-size"));
+        });
+
+        //Ceking channel of section to get color
+        switch (sct) {
+            case 'instagram':
+                color1 = '#ee822a';
+                color2 = '#9a03d3';
+                break;
+            case 'twitter':
+                color1 = '#020202';
+                color2 = '#37a1f7';
+                break;
+            case 'youtube':
+                color1 = '#FF0000';
+                color2 = '#480000';
+                break;
+            case 'tiktok':
+                color1 = '#26ece7';
+                color2 = '#f42d53';
+                break;
+            case 'website':
+                color1 = '#c2ff28';
+                color2 = '#12a9c9';
+                break;
+            default:
+                color1 = '#914cdb';
+                color2 = '#112262';
+                break;
+        }
+
+        rlFirst.find('select').on('change', function (){
+            let csr = rlFirst.find('.range-input');
+            foval = $(this).val();
+            switch (foval){
+                case 'f2':
+                    mins = 5000;
+                    maxs = 9999;
+                    maxsL = 4;
+                    prm = 13;
+                    break;
+                case 'f3':
+                    mins = 10000;
+                    maxs = 49999;
+                    maxsL = 5;
+                    prm = 12.5;
+                    break;
+                case 'f4':
+                    mins = 50000;
+                    maxs = 499999;
+                    maxsL = 6;
+                    prm = 12.5;
+                    break;
+                case 'f5':
+                    mins = 500000;
+                    maxs = 999999;
+                    maxsL = 6;
+                    prm = 12.5;
+                    break;
+                case 'f6':
+                    mins = 1000000;
+                    maxs = 4999999;
+                    maxsL = 7;
+                    prm = 13;
+                    break;
+                case 'f7':
+                    mins = 5000000;
+                    maxs = 9999999;
+                    maxsL = 7;
+                    prm = 13;
+                    break;
+                case 'f8':
+                    mins = 10000000;
+                    maxs = 50000000;
+                    maxsL = 8;
+                    prm = 12.8;
+                    break;
+                default:
+                    mins = 0;
+                    maxs = 4999;
+                    maxsL = 4;
+                    prm = 12;
+                    break;
+            }
+            csr.removeAttr('style');
+            csr.attr({
+                min: mins,
+                max: maxs,
+            }).val(mins);
+            let value = (csr.val() - mins) / (maxs - mins)*100;
+            csr.css('background','linear-gradient(to right, '+color1+' 0%, '+color2+' '+value+'%, #e3e3e3 '+value+'%, #e3e3e3 100%)');
+
+            rlfNumber.attr({
+                value: parseFloat(mins).toLocaleString('id-ID'),
+                min: mins,
+                max: maxs,
+                maxLength: maxsL
+            }).val(parseFloat(mins).toLocaleString('id-ID')).css('max-width', (mins.toString().length * prm) + 'px');
+
+            if(rlfNumber.val().replace(/[$.]/g, '').trim() > 0) {
+                btnRset.removeClass("d-none");
+                btnCalc.attr("disabled", false);
+            }else{
+                btnRset.addClass("d-none");
+                btnCalc.attr("disabled", true);
+            }
+        });
+
+        rList.each(function(el) {
+            let fv,
+                rst = 0,
+                idx = $(this).attr("data-param"),
+                i1 = $(this).find(".number-input"),
+                i2 = $(this).find(".range-input");
+
+            i2.on('input change', function() { //Range input
+                i1.val(parseFloat($(this).val()).toLocaleString('id-ID')).css('max-width', ($(this).val().length * prm) + 'px');
+                // i1.val(fv).css('max-width', ($(this).val().length * prm) + 'px').focus();
+                let value = (parseFloat($(this).val()) - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'))*100;
+                $(this).css('background','linear-gradient(to right, '+color1+' 0%, '+color2+' '+value+'%, #e3e3e3 '+value+'%, #e3e3e3 100%)');
+
+                if(idx == 1){
+                    if($(this).val() > 0) {
+                        btnRset.removeClass("d-none");
+                        btnCalc.attr("disabled", false);
+                    }else{
+                        btnRset.addClass("d-none");
+                        btnCalc.attr("disabled", true);
+                    }
+                }
+            });
+            i1.on('input change', function() { //Number input
+                if ($(this).val().charAt(0) == '') { //if first value is empty then replace to min value
+                    let cekmin = (idx == 1)? mins : $(this).attr('min'),
+                        cekmax = (idx == 1)? maxs : $(this).attr('max');
+
+                    var value = ($(this).val() - cekmin) / (cekmax - cekmin)*100;
+                    // i2.val($(this).val().replace(/[$.]/g, '').trim()).attr('value', $(this).val().replace(/[$.]/g, '').trim())
+
+
+                    i2.attr('value', 0).val(0).css('background','linear-gradient(to right, '+color1+' 0%, '+color2+' '+value+'%, #e3e3e3 '+value+'%, #e3e3e3 100%)');
+                    // i1.css('max-width', ($(this).val().length * prm) + 'px');
+                    i1.val(cekmin).attr('value', cekmin).css('max-width', ($(this).val().length * prm) + 'px');
+
+                    console.log('Null', 'idx:'+idx, 'cekmin:'+cekmin);
+
+                }else { //calculate width of input field depend on length
+                    i1.css('max-width', ($(this).val().length * prm) + 'px');
+                }
+
+            }).on('keypress', function(e) {
+                if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                    //$("#errmsg").html("Number Only").stop().show().fadeOut("slow");
+                    return false;
+                }
+            }).on('focusin', function() { // Remove the currency symbol when focus in
+                //console.log('focusin - val:', $(this).val().replace(/[$.]/g, '').trim(), ' mins:', mins);
+                $(this).val($(this).val().replace(/[$.]/g, '').trim()).attr('value', $(this).val().replace(/[$.]/g, '').trim());
+
+            }).on('focusout', function() { // Add currency symbol when focus out
+                let cekmin = (idx == 1)? mins : $(this).attr('min'),
+                    cekmax = (idx == 1)? maxs : $(this).attr('max');
+
+                if(idx == 1){
+                    if($(this).val() > 0) {
+                        btnRset.removeClass("d-none");
+                        btnCalc.attr("disabled", false);
+                    }else{
+                        btnRset.addClass("d-none");
+                        btnCalc.attr("disabled", true);
+                    }
+                }
+
+                if ($(this).val().replace(/[$.]/g, '').trim() >= cekmax) {
+                    var value = ($(this).val().replace(/[$.]/g, '').trim() - cekmin) / (cekmax - cekmin)*100;
+                    i2.val($(this).val().replace(/[$.]/g, '').trim()).attr('value', $(this).val().replace(/[$.]/g, '').trim()).css('background','linear-gradient(to right, #ee822a 0%, #9a03d3 ' + value + '%, #e3e3e3 ' + value + '%, #e3e3e3 100%)');
+
+                    $(this).val(cekmax.toLocaleString('id-ID')).attr('value', cekmax.toLocaleString('id-ID'));
+                    // $(this).val(parseFloat($(this).val()).toLocaleString('id-ID'));
+                    console.log('checking maxs value: ', $(this).val().replace(/[$.]/g, '').trim(), cekmax);
+                }else {
+                    if(cekmin > 4999){
+                        if(cekmin > $(this).val().replace(/[$.]/g, '').trim()){
+                            var value = ($(this).val().replace(/[$.]/g, '').trim() - cekmin) / (cekmax - cekmin)*100;
+                            i2.val($(this).val().replace(/[$.]/g, '').trim()).attr('value', $(this).val().replace(/[$.]/g, '').trim()).css('background','linear-gradient(to right, '+color1+' 0%, '+color2+' '+value+'%, #e3e3e3 '+value+'%, #e3e3e3 100%)');
+
+                            $(this).val(cekmin).attr('value', cekmin).css('max-width', ($(this).val().replace(/[$.]/g, '').trim().length * prm) + 'px');
+                            //console.log('focusout kurang : '+ cekmin / $(this).val().replace(/[$.]/g, '').trim());
+                        }else{
+                            //console.log('focusout lebih :'+ cekmin / $(this).val().replace(/[$.]/g, '').trim());
+                            var value = ($(this).val().replace(/[$.]/g, '').trim() - cekmin) / (cekmax - cekmin)*100;
+                            i2.val($(this).val().replace(/[$.]/g, '').trim()).attr('value', $(this).val().replace(/[$.]/g, '').trim()).css('background','linear-gradient(to right, '+color1+' 0%, '+color2+' '+value+'%, #e3e3e3 '+value+'%, #e3e3e3 100%)');
+                            $(this).val(parseFloat($(this).val()).toLocaleString('id-ID'));
+                        }
+                    }else{
+                        var value = (parseFloat($(this).val()) - cekmin) / (cekmax - cekmin)*100;
+                        i2.removeAttr('style').val($(this).val().replace(/[$.]/g, '').trim()).attr('value', $(this).val().replace(/[$.]/g, '').trim()).css('background','linear-gradient(to right, '+color1+' 0%, '+color2+' '+value+'%, #e3e3e3 '+value+'%, #e3e3e3 100%)');
+
+                        $(this).val(parseFloat($(this).val()).toLocaleString('id-ID'));
+                        console.log('under 5000');
+                    }
+                }
+            });
+        });
+
+        $('.btnReset').click(function() {
+            mins = 0;
+            maxs = 4999;
+            maxsL = 4;
+            prm = 12;
+            let nif = rlFirst.find('.number-input'), rif = rlFirst.find('.range-input');
+            $(this).addClass('d-none').siblings('.btnCalculate').attr("disabled", true);
+            parent.find('input').val(0).attr('value', 0).removeAttr('style');
+            parent.find('select').prop('selectedIndex', 0);
+            nif.attr({
+                min: mins, max: maxs, maxLength: maxsL
+            })
+            rif.attr({
+                min: mins, max: maxs
+            });
+            var value = (parseFloat(nif.val().replace(/[$.]/g, '').trim()) - mins) / (maxs - mins)*100;
+            rif.removeAttr('style').val(parseFloat(nif.val().replace(/[$.]/g, '').trim())).attr('value', parseFloat(nif.val().replace(/[$.]/g, '').trim())).css('background','linear-gradient(to right, '+color1+' 0%, '+color2+' '+value+'%, #e3e3e3 '+value+'%, #e3e3e3 100%)');
+        });
+    });
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function (){
+        $('button[type="submit"]').click(function (e) {
+            //e.preventDefault();
+            let sid = $(this).attr('id');
+            $('.result-cont').removeClass('d-none');
+            console.log(sid);
+            if(sid == 'instagram_submit'){
+                let avc = 2500,
+                    cvr1 = 3, //in percentage %
+                    cvr2 = 10, //in percentage %
+                    ff = parseFloat($('#instagram_follower').val().replace(/[$.]/g, '').trim()),
+                    fc = parseFloat($('#instagram_comment').val().replace(/[$.]/g, '').trim()),
+                    fl = parseFloat($('#instagram_likes').val().replace(/[$.]/g, '').trim()),
+                    ftp = parseFloat($('#instagram_total_post').val().replace(/[$.]/g, '').trim());
+
+                $('[data-result="instagram_follower"]').text(ff.toLocaleString('id-ID'));
+                $('[data-result="instagram_comment"]').text(fc.toLocaleString('id-ID'));
+                $('[data-result="instagram_likes"]').text(fl.toLocaleString('id-ID'));
+                $('[data-result="instagram_total_post"]').text(ftp.toLocaleString('id-ID'));
+                $('[data-result="instagram_avcomm"]').text(avc.toLocaleString('id-ID'));
+
+                let er = (fc + fl) / ff,
+                    ec = (ff * er),
+                    ecv = Math.ceil((ec * cvr1) / 100), // IG Creator
+                    ecomp = Math.ceil(ecv * avc),
+                    ecomm = Math.ceil(ecomp * ftp),
+                    ecv1 = Math.ceil((ec * cvr2) / 100), // IG Remix Creator
+                    ecomp1 = Math.ceil(ecv1 * avc),
+                    ecomm1 = Math.ceil(ecomp1 * ftp);
+
+                console.log('ER:'+ er, ' EC:'+ec, ' ECV:'+ ecv, ' ECOMP:'+ecomp);
+
+                $('[data-result="c_instagram_estimated_click"]').text(ec.toLocaleString("id-ID"));
+                $('[data-result="c_instagram_estimated_conversion"]').text(ecv.toLocaleString("id-ID"));
+                $('[data-result="c_instagram_estimated_commission_post"]').text(ecomp.toLocaleString("id-ID"));
+                $('[data-result="c_instagram_estimated_commission_month"]').text(ecomm.toLocaleString("id-ID"));
+
+                $('[data-result="rc_instagram_estimated_click"]').text(ec.toLocaleString("id-ID"));
+                $('[data-result="rc_instagram_estimated_conversion"]').text(ecv1.toLocaleString("id-ID"));
+                $('[data-result="rc_instagram_estimated_commission_post"]').text(ecomp1.toLocaleString("id-ID"));
+                $('[data-result="rc_instagram_estimated_commission_month"]').text(ecomm1.toLocaleString("id-ID"));
+
+            }
+            else if(sid == 'twitter_submit'){
+                let avc = 2500,
+                    cvr = 3, //in percentage %
+                    ff = parseFloat($('#twitter_follower').val().replace(/[$.]/g, '').trim()),
+                    fc = parseFloat($('#twitter_comment').val().replace(/[$.]/g, '').trim()),
+                    fl = parseFloat($('#twitter_likes').val().replace(/[$.]/g, '').trim()),
+                    ftp = parseFloat($('#twitter_total_post').val().replace(/[$.]/g, '').trim());
+
+                $('[data-result="twitter_follower"]').text(ff.toLocaleString('id-ID'));
+                $('[data-result="twitter_comment"]').text(fc.toLocaleString('id-ID'));
+                $('[data-result="twitter_likes"]').text(fl.toLocaleString('id-ID'));
+                $('[data-result="twitter_total_post"]').text(ftp.toLocaleString('id-ID'));
+                $('[data-result="twitter_avcomm"]').text(avc.toLocaleString('id-ID'));
+
+                let er = (fc + fl) / ff,
+                    ec = (ff * er),
+                    ecv = Math.ceil((ec * cvr) / 100),
+                    ecomp = Math.ceil(ecv * avc),
+                    ecomm = Math.ceil(ecomp * ftp);
+                //console.log('FF:'+ff,'FC:'+fc,'FL:'+fl, 'ER:'+er, 'ECV:'+ecv);
+
+                $('[data-result="twitter_estimated_acvr"]').text(ec.toLocaleString("id-ID"));
+                $('[data-result="twitter_estimated_click"]').text(ec.toLocaleString("id-ID"));
+                $('[data-result="twitter_estimated_conversion"]').text(ecv.toLocaleString("id-ID"));
+                $('[data-result="twitter_estimated_commission_post"]').text(ecomp.toLocaleString("id-ID"));
+                $('[data-result="twitter_estimated_commission_month"]').text(ecomm.toLocaleString("id-ID"));
+
+            }
+            else if(sid == 'youtube_submit'){
+                let avc = 2500,
+                    ctr = 5, //in percentage %
+                    cvr = 6, //in percentage %
+                    v = parseFloat($('#youtube_vpm').val().replace(/[$.]/g, '').trim()),
+                    ec = Math.ceil((v * ctr) / 100),
+                    ecv = Math.ceil((ec * cvr) / 100),
+                    ecomm = Math.ceil(ecv * avc);
+
+                $('[data-result="youtube_view"]').text(v.toLocaleString('id-ID'));
+                $('[data-result="youtube_est_click"]').text(ec.toLocaleString('id-ID'));
+                $('[data-result="youtube_est_conversion"]').text(ecv.toLocaleString('id-ID'));
+                $('[data-result="youtube_avcomm"]').text(avc.toLocaleString('id-ID'));
+                $('[data-result="youtube_est_commission"]').text(ecomm.toLocaleString('id-ID'));
+
+            }
+            else if(sid == 'tiktok_submit'){
+                let avc = 5000,
+                    ctr = 1, //in percentage %
+                    cvr = 5, //in percentage %
+                    t = parseFloat($('#tiktok_traffic').val().replace(/[$.]/g, '').trim()),
+                    ec = Math.ceil((t * ctr) / 100),
+                    ecv = Math.ceil((ec * cvr) / 100),
+                    ecomm = Math.ceil(ecv * avc);
+
+                $('[data-result="tiktok_traffic"]').text(t.toLocaleString('id-ID'));
+                $('[data-result="tiktok_est_click"]').text(ec.toLocaleString('id-ID'));
+                $('[data-result="tiktok_est_conversion"]').text(ecv.toLocaleString('id-ID'));
+                $('[data-result="tiktok_avcomm"]').text(avc.toLocaleString('id-ID'));
+                $('[data-result="tiktok_est_commission"]').text(ecomm.toLocaleString('id-ID'));
+
+            }
+            else if(sid == 'website_submit'){
+                let avc = 2500,
+                    ctr = 1, //in percentage %
+                    cvr = 10, //in percentage %
+                    t = parseFloat($('#website_traffic').val().replace(/[$.]/g, '').trim()),
+                    ec = Math.ceil((t * ctr) / 100),
+                    ecv = Math.ceil((ec * cvr) / 100),
+                    ecomm = Math.ceil(ecv * avc);
+
+                $('[data-result="website_traffic"]').text(t.toLocaleString('id-ID'));
+                $('[data-result="website_est_click"]').text(ec.toLocaleString('id-ID'));
+                $('[data-result="website_est_conversion"]').text(ecv.toLocaleString('id-ID'));
+                $('[data-result="website_avcomm"]').text(avc.toLocaleString('id-ID'));
+                $('[data-result="website_est_commission"]').text(ecomm.toLocaleString('id-ID'));
+            }
+            else { //Live Streaming
+                let avc = 4500,
+                    ctr = 5, //in percentage %
+                    cvr = 10, //in percentage %
+                    t = parseFloat($('#live_streaming_live').val().replace(/[$.]/g, '').trim()),
+                    ec = Math.ceil((t * ctr) / 100),
+                    ecv = Math.ceil((ec * cvr) / 100),
+                    ecomm = Math.ceil(ecv * avc);
+
+                $('[data-result="live_streaming_live"]').text(t.toLocaleString('id-ID'));
+                $('[data-result="live_streaming_est_click"]').text(ec.toLocaleString('id-ID'));
+                $('[data-result="live_streaming_est_conversion"]').text(ecv.toLocaleString('id-ID'));
+                $('[data-result="live_streaming_avcomm"]').text(avc.toLocaleString('id-ID'));
+                $('[data-result="live_streaming_est_commission"]').text(ecomm.toLocaleString('id-ID'));
+            }
+        });
+    });
+</script>
